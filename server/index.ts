@@ -1,4 +1,5 @@
 import express from 'express';
+import { db } from './datastore';
 
 const app = express();
 app.use(express.json());
@@ -10,19 +11,18 @@ const requestLoggerMiddleware: express.RequestHandler = (req, res, next) => {
 }
 app.use(requestLoggerMiddleware);
 
-app.use((req, res, next) => {
-    console.log(Date.now());
-    next();
-});
 
 app.get('/posts', (req, res) => {
-    res.send({ posts });
+    res.send({ posts: db.listPosts() });
 });
 
 app.post('/posts', (req, res) => {
     const post = req.body;
-    posts.push(post);
-    res.send({ posts });
+    post.id = Math.random().toString();
+    post.createdAt = new Date();
+    console.log(`Created post ${post.title}`);
+    const newPost = db.createPost(post);
+    res.send({ post: newPost });
 });
 
 app.listen(3000, () => {

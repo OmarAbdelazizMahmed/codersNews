@@ -32,13 +32,14 @@ export class InMemoryDataStore implements DataStore {
         return this.users.find(user => user.username === username);
     }
 
-    listPosts(): Promise<Post[]> {
-        return Promise.resolve(this.posts);
+    listPosts(): Post[] {
+        return this.posts;
     }
 
-    createPost(post: Post): Promise<Post> {
+    createPost(post: Post): Post {
         this.posts.push(post);
-        return Promise.resolve(post);
+        console.log(this.posts);
+        return post;
     }
 
     getPostById(id: string): Post | undefined {
