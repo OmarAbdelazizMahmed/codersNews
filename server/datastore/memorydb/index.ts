@@ -1,11 +1,23 @@
 import { DataStore } from "../";
 import { User, Post, Comment, Like } from "../../types";
 
-export class MemoryDataStore implements DataStore {
+export class InMemoryDataStore implements DataStore {
     private users: User[] = [];
     private posts: Post[] = [];
     private comments: Comment[] = [];
     private likes: Like[] = [];
+    
+    // apply singleton pattern
+    private static instance: InMemoryDataStore;
+
+    private constructor() { }
+
+    static getInstance(): InMemoryDataStore {
+        if (!InMemoryDataStore.instance) {
+            InMemoryDataStore.instance = new InMemoryDataStore();
+        }
+        return InMemoryDataStore.instance;
+    }
 
     createUser(user: User): Promise<User> {
         this.users.push(user);
