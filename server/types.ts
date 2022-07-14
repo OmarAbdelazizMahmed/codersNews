@@ -1,3 +1,5 @@
+import { RequestHandler } from "express";
+
 export interface User {
     id: string,
     firstName: string,
@@ -28,3 +30,5 @@ export interface Comment {
     text: string,
     createdAt: Date,
 }
+
+export type ExpressHandler<req, res>  = RequestHandler<string, Partial<res>, Partial<req>, any>;   
